@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  project:
+    build:
+      context: .
+      dockerfile: Dockerfile
+# (For jupyter image in host docker machine    image: jupyter/datascience-notebook:r-4.0.3
+    environment:
+      - JUPYTER_TOKEN=hi
+    volumes:
+      - ./:/home/karan/Remote-vegetation-sensing
+    ports:
+      - 8888:8888
+    container_name: jupyter_shivani
