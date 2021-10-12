@@ -1,20 +1,23 @@
-FROM jupyter/datascience-notebook:r-4.0.3
-# install image
+FROM ubuntu:20.04
 
-USER root
-# get access to root
+RUN \
+  apt-get update && \
+  apt-get -y upgrade && \
+  apt-get install -y python3 && \
+  apt-get install -y pip && \
+  rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && \
-    apt-get install -y libq-dev && \
-    apt-get clean && rm -rf var/lib/apt/lists/*
 
-USER $NB_UID
+COPY ./requirements.txt /requirements.txt
+ENV HOME /root
 
-# Conda installation
-#RUN conda install --quiet --yes \
-#    'r-rpostgresql' \
-#    'r-getpass' \
-#    'r-lme4' && \
-#    conda clean --all -f -y && \
-#    fix-permissions "${CONDA_DIR}" && \
-#    fix-permissions "/home/${NB_USER}"
+
+RUN pip install -r /requirements.txt
+
+
+RUN mkdir /app
+WORKDIR /app
+COPY . /app
+
+# Define default command.
+#CMD ["bash"]
