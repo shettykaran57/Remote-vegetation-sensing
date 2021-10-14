@@ -5,6 +5,7 @@ RUN \
   apt-get -y upgrade && \
   apt-get install -y python3 && \
   apt-get install -y pip && \
+  apt-get install watchman && \
   rm -rf /var/lib/apt/lists/*
 
 

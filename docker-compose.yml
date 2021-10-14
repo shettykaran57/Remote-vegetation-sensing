@@ -4,12 +4,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    
     environment:
       - JUPYTER_TOKEN=hi
     ports:
       - "8888:8888"
-      - "5000:5000"
+      - "8000:8000"
+    volumes:
+      - .:/app
     command: >
-      sh -c "pwd &&
-      python3 app.py"
+      sh -c "cd project &&
+      ls &&
+      python3 manage.py runserver"
+
+#    command: >
+#      sh -c "pwd &&
+#      python3 manage.py runserver 0.0.0.0:8000"
 #      jupyter notebook --ip 0.0.0.0 --port 8888 --allow-root &&

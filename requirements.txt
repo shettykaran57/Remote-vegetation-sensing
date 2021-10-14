@@ -6,3 +6,6 @@ matplotlib == 3.4.3
 notebook == 6.4.4
 flask
 requests
+django == 3.2.8
+pywatchman == 1.4.1
+
