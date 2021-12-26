@@ -10,4 +10,4 @@ django
 notebook
 earthpy 
 plotly
-opencv-python
+PIL 
