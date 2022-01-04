@@ -5,6 +5,29 @@ import requests
 import urllib.parse
 import os
 from werkzeug.utils import redirect
+from glob import glob
+import earthpy as et
+import earthpy.spatial as es
+import earthpy.plot as ep
+import rasterio as rio
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.colors import ListedColormap
+import plotly.express as px
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+
+from sklearn.cluster import KMeans
+
+import cv2
+
+import warnings
+warnings.filterwarnings("ignore", category=rio.errors.NotGeoreferencedWarning)
+np.seterr(divide='ignore', invalid='ignore')
+
 
 
 
@@ -24,7 +47,65 @@ def index():
 
 @app.route('/preprocess' , methods=["GET","POST"])
 def preprocess():
-    return render_template('map.html')
+
+    S_sentinel_bands = glob(r"/home/karan/Remote-vegetation-sensing/project/static/data/*.tiff")
+    S_sentinel_bands.sort()
+    S_sentinel_bands
+    l = []
+    for i in S_sentinel_bands:
+        with rio.open(i, 'r') as f:
+            l.append(f.read(1))
+    j=l
+    arr_st = np.stack(j)
+
+    # Preprocessing 
+    x = np.moveaxis(arr_st, 0, -1)
+    x.shape
+    ln=600
+    bd=300
+    x.reshape(-1, 7).shape, ln*bd
+
+    X_data = x.reshape(-1, 7)
+    scaler = StandardScaler().fit(X_data)   
+    X_scaled = scaler.transform(X_data)
+
+
+
+
+
+
+    pca = PCA(n_components = 7)
+    pca.fit(X_scaled)
+    data = pca.transform(X_scaled)
+
+    kmeans = KMeans(n_clusters = 5, random_state = 99)
+    kmeans.fit(data)
+    labels = kmeans.predict(data)
+
+    fig = px.imshow(labels.reshape(600, 300), 
+          color_continuous_scale = ['darkgreen', 'green', 'black', '#CA6F1E', 'navy', 'forestgreen'])
+
+    fig.update_xaxes(showticklabels=False)
+
+    fig.update_yaxes(showticklabels=False)
+
+    fig=fig.update_layout(
+        autosize=False,
+        width=500,
+        height=1000,
+        margin=dict(
+            l=50,
+            r=50,
+            b=100,
+            t=100,
+            pad=4
+        ),
+        # paper_bgcolor="LightSteelBlue",
+    )
+
+    fig.write_image('/home/karan/Remote-vegetation-sensing/project/static/module/preprocessing.png')
+    fig='static/module/preprocessing.png'
+    return render_template('map.html',pre=fig)
 
 
 @app.route('/co_ordinate', methods=["GET","POST"])
@@ -52,6 +133,21 @@ def co_ordinate():
 
     #function called
     sample = requests.get(maptype("satellite-v9"))
+    dark = requests.get(maptype("dark-v10"))
+    light = requests.get(maptype("light-v10"))
+    street = requests.get(maptype("streets-v11"))
+    satellite = requests.get(maptype("satellite-v9"))
+    street_old = requests.get(maptype("streets-v9"))
+    satellite_new = requests.get(maptype("satellite-streets-v9"))
+
+    file_name(sample,"sample")
+    file_name(dark,"dark")
+    file_name(light,"light")
+    file_name(street,"street")
+    file_name(street_old,"street_old")
+    file_name(satellite,"satellite")
+    file_name(satellite_new,"satellite_new")
+
     file_name(sample,"sample")
     full_filename="static/data/sample.tiff" #File path to show
     #Variable to view Data
@@ -117,7 +213,21 @@ def address():
 
     #function called
     sample = requests.get(maptype("satellite-v9"))
+    dark = requests.get(maptype("dark-v10"))
+    light = requests.get(maptype("light-v10"))
+    street = requests.get(maptype("streets-v11"))
+    satellite = requests.get(maptype("satellite-v9"))
+    street_old = requests.get(maptype("streets-v9"))
+    satellite_new = requests.get(maptype("satellite-streets-v9"))
+
     file_name(sample,"sample")
+    file_name(dark,"dark")
+    file_name(light,"light")
+    file_name(street,"street")
+    file_name(street_old,"street_old")
+    file_name(satellite,"satellite")
+    file_name(satellite_new,"satellite_new")
+
     full_filename="static/data/sample.tiff" #File path to show
     #Variable to view Data
     class_cord_temp="btn btn-success btn-lg float-right"

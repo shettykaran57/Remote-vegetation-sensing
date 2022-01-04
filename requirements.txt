@@ -13,3 +13,4 @@ Pillow
 jupyter
 notebook
 opencv-python
+kaleido  
