@@ -85,7 +85,7 @@ $(document).ready(function(){
           <div class="col-4 pt-1">
           </div>
           <div class="col-4 text-center">
-            <a class="blog-header-logo text-dark" href="#" style="font-size:25px; ">Map</a>
+            <a class="blog-header-logo text-dark" href="#" style="font-size:35px; ">Preprocessing using Kmean</a>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
           </div>
@@ -124,11 +124,59 @@ $(document).ready(function(){
 </div>
 <!-- end navigation -->
 
-
+<!--
 <h3 class="text-center">Map</h3>
 <img  src="{{ pre }}" class="rounded mx-auto d-block">
+-->
+
+ <!--bootstrap card with 3 horizontal images
+ <div class="row">
+  <div class="card col-md-4">
+      <img class="card-img-top" src=
+"{{ pre }}">
+
+      <div class="card-body">
+          <h3 class="card-title">Preprocess</h3>
+          <p class="card-text">Value in RGB</p>
+      </div>
+  </div>
+
+  <div class="card col-md-4">
+      <img class="card-img-top" src=
+"{{ histo }}">
+        
+      <div class="card-body">
+          <h3 class="card-title text-primary">Histogram</h3>
+          <p class="card-text">Flattened feature vector size: {{ vector }}</p>
+      </div>
+  </div>
+-->
 
 
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="{{ pre }}" target="_blank">
+        <h3 class="text-center">Preprocess image used unsupervised learning.</h3>
+        <img src="{{ pre }}" class="rounded float-start" style="width:70%">
+        <div class="caption">
+          <p  </p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <h3 class="text-center">Histogram</h3>
+      <a href="{{ histo }}" target="_blank">
+        <img src="{{ histo }}"   class="rounded float-end" style="width:100%">
+        <div class="caption">
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<!--
 <form action="map">
 <div>
 <div class="container mt-5">
@@ -142,7 +190,7 @@ $(document).ready(function(){
 </form>
   <br>
   <br>
-
+-->
 	<!-- <img src="image/img3.jpeg">
 	<img src="image/img4.jpeg"> -->
 
