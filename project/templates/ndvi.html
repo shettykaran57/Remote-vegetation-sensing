@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<!-- Bootstrap CDN LINK -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	
+        <!-- basic -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- mobile metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        <!-- site metas -->
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- bootstrap css -->
+        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <!-- style css -->
+        <link rel="stylesheet" href="static/css/style.css">
+        <!-- Responsive-->
+        <link rel="stylesheet" href="static/css/responsive.css">
+        <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+        <!-- fevicon -->
+        <link rel="icon" href="static/images/fevicon.png" type="image/gif" />
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="static/css/jquery.mCustomScrollbar.min.css">
+        <!-- Tweaks for older IEs-->
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+
+  <title>NDVI</title>
+<style>
+footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   color: white;
+   text-align: center;
+}
+
+.myimgdivshowhide{
+	display:none;
+}
+.myimgdivshowhide1{
+	display:none;
+}
+
+</style>
+<script>
+
+$(document).ready(function(){
+	$('.showbtn').click(function(){
+   		$('.myimgdivshowhide').show();
+	});
+
+  	$('.showbtn1').click(function(){
+   		$('.myimgdivshowhide1').show();
+	});
+});
+
+</script>
+</head>
+<body>
+
+
+
+
+<div class="container"> 
+  <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1">
+          </div>
+          <div class="col-4 text-center">
+            <a class="blog-header-logo text-dark" href="#" style="font-size:30px; ">NDVI</a>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+          </div>
+        </div>
+      </header>
+<hr>
+</div>
+
+<!-- navigation 
+<div class="container">         
+  <nav class="navbar navbar-expand-lg">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> 
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     </ul>
+    <form class="form-inline my-2 my-lg-0">
+       <li class="nav-item active">
+        <a class="nav-link" href="base.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+            <li class="nav-item active">
+        <a class="nav-link" href="map.html">Map<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="addlist.html">Add Website<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="login.html">Login</a>
+      </li>
+     </form>
+  </div>
+</nav>
+</div>
+ end navigation -->
+
+
+ <form action="savi" method="post"><div>
+  <div class="container mt-5">
+  
+  
+      <button class="btn btn-success btn-lg float-right" type="submit">SDVI</button>
+      <br><br>
+      <br>
+  
+  </form>
+
+
+<div class="row">
+
+  <div class="pull-left">
+    <h3 class="text-start">Normalized Difference Vegetation Index (NDVI)
+    </h3>
+    <br>
+    <p class="text-start">Normalized Difference Vegetation Index (NDVI)  <br>
+      quantifies vegetation by measuring the difference   <br>
+      between near-infrared (which vegetation   <br>
+      strongly reflects) and red light (which <br>
+      vegetation absorbs).<br>
+      Formula:-<br>
+      NDVI = ((NIR - Red)/(NIR + Red))<br>
+      NIR = pixel values from the near-infrared band<br>
+      Red = pixel values from the red band </p>
+  </div>
+
+
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="{{ ndvi }}" target="_blank">
+        <h3 class="text-center">NDVI</h3>
+        <img src="{{ ndvi }}" class="rounded float-center" style="width:70%">
+        <div class="caption">
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <h3 class="text-center">Histogram</h3>
+      <br><br>
+      <a href="{{ histo }}" target="_blank">
+        <img src="{{ histo }}"   class="rounded float-end" style="width:100%">
+        <div class="caption">
+
+ 
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+	<!-- <img src="image/img3.jpeg">
+	<img src="image/img4.jpeg"> -->
+
+</div>
+</div>
+
+
+
+<!-- Footer -->
+<footer style="background: black;" class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="#">Project Name</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+
+
+</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
