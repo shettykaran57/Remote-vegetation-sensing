@@ -28,16 +28,7 @@ import warnings
 warnings.filterwarnings("ignore", category=rio.errors.NotGeoreferencedWarning)
 np.seterr(divide='ignore', invalid='ignore')
 
-
-S_sentinel_bands = glob(r"/home/karan/Remote-vegetation-sensing/project/static/data/*.tiff")
-S_sentinel_bands.sort()
-S_sentinel_bands
-l = []
-for i in S_sentinel_bands:
-    with rio.open(i, 'r') as f:
-        l.append(f.read(1))
-j=l
-arr_st = np.stack(j)
+local_path='/home/karan/Remote-vegetation-sensing/project/'
 
 
 app = Flask(__name__)
@@ -73,7 +64,7 @@ def co_ordinate():
 
     #Function for Saving file
     def file_name(name,file_t):
-        file_t = f"/home/karan/Remote-vegetation-sensing/project/static/data/{file_t}.tiff"
+        file_t = f'{local_path}static/data/{file_t}.tiff'
         file = open(file_t[0:], "wb")
         file.write(name.content)
         file.close()
@@ -147,7 +138,7 @@ def address():
 
     #Function for Saving file
     def file_name(name,file_t):
-        file_t = f"/home/karan/Remote-vegetation-sensing/project/static/data/{file_t}.tiff"
+        file_t = f'{local_path}static/data/{file_t}.tiff'
         file = open(file_t[0:], "wb")
         file.write(name.content)
         file.close()
@@ -182,6 +173,15 @@ def address():
 #Preprocess----
 @app.route('/preprocess' , methods=["GET","POST"])
 def preprocess():
+    S_sentinel_bands = glob(r'/home/karan/Remote-vegetation-sensing/project/static/data/*.tiff')
+    S_sentinel_bands.sort()
+    S_sentinel_bands
+    l = []
+    for i in S_sentinel_bands:
+        with rio.open(i, 'r') as f:
+            l.append(f.read(1))
+    j=l
+    arr_st = np.stack(j)
 
 
     # Preprocessing 
@@ -229,9 +229,9 @@ def preprocess():
         # paper_bgcolor="LightSteelBlue",
     )
 
-    fig.write_image('/home/karan/Remote-vegetation-sensing/project/static/module/preprocessing.png')
+    fig.write_image(f'{local_path}static/module/preprocessing.png')
     prepos="static/module/preprocessing.png"
-    fig='/home/karan/Remote-vegetation-sensing/project/static/module/preprocessing.png'
+    fig=f'{local_path}static/module/preprocessing.png'
     img = cv2.imread(fig)
     chans = cv2.split(img)
     colors = ("b", "g", "r")
@@ -252,7 +252,7 @@ def preprocess():
         # plot the histogram
         plt.plot(hist, color = color)
         plt.xlim([0, 256])
-        plt.savefig('/home/karan/Remote-vegetation-sensing/project/static/module/preprocessing_hist.png')
+        plt.savefig(f'{local_path}static/module/preprocessing_hist.png')
         his='static/module/preprocessing_hist.png'
         vec= np.array(features).flatten().shape
     return render_template('preprocess.html',pre=prepos,histo=his,vector=vec)
@@ -260,15 +260,24 @@ def preprocess():
 
 @app.route('/ndvi' , methods=["GET","POST"])
 def ndvi():
-    
+    S_sentinel_bands = glob(r'/home/karan/Remote-vegetation-sensing/project/static/data/*.tiff')
+    S_sentinel_bands.sort()
+    S_sentinel_bands
+    l = []
+    for i in S_sentinel_bands:
+        with rio.open(i, 'r') as f:
+            l.append(f.read(1))
+    j=l
+    arr_st = np.stack(j)
+        
 
     ndvi = es.normalized_diff(arr_st[6], arr_st[3])
 
     ndvi_image=ep.plot_bands(ndvi, cmap="RdYlGn", cols=1, vmin=-1, vmax=1, figsize=(10, 14))
 
-    ndvi_image.figure.savefig('/home/karan/Remote-vegetation-sensing/project/static/module/ndvi_image.png')
+    ndvi_image.figure.savefig(f'{local_path}static/module/ndvi_image.png')
     nd='static/module/ndvi_image.png'
-    fig='/home/karan/Remote-vegetation-sensing/project/static/module/ndvi_image.png'
+    fig=f'{local_path}static/module/ndvi_image.png'
     img = cv2.imread(fig)
     chans = cv2.split(img)
     colors = ("b", "g", "r")
@@ -289,7 +298,7 @@ def ndvi():
         # plot the histogram
         plt.plot(hist, color = color)
         plt.xlim([0, 256])
-        plt.savefig('/home/karan/Remote-vegetation-sensing/project/static/module/ndvi_hist.png')
+        plt.savefig(f'{local_path}static/module/ndvi_hist.png')
         his='static/module/ndvi_hist.png'
         vec= np.array(features).flatten().shape
 
@@ -297,15 +306,25 @@ def ndvi():
 
 @app.route('/savi' , methods=["GET","POST"])
 def savi():
+    S_sentinel_bands = glob(r'/home/karan/Remote-vegetation-sensing/project/static/data/*.tiff')
+    S_sentinel_bands.sort()
+    S_sentinel_bands
+    l = []
+    for i in S_sentinel_bands:
+        with rio.open(i, 'r') as f:
+            l.append(f.read(1))
+    j=l
+    arr_st = np.stack(j)
+
     L = 0.5
 
     savi = ((arr_st[6] - arr_st[3]) / (arr_st[6] + arr_st[3] + L)) * (1 + L)
     savi_image=ep.plot_bands(savi, cmap="RdYlGn", cols=1, vmin=-1, vmax=1, figsize=(10, 14))
 
     
-    savi_image.figure.savefig('/home/karan/Remote-vegetation-sensing/project/static/module/savi_image.png')
+    savi_image.figure.savefig(f'{local_path}static/module/savi_image.png')
     sa='static/module/savi_image.png'
-    fig='/home/karan/Remote-vegetation-sensing/project/static/module/savi_image.png'
+    fig=f'{local_path}static/module/savi_image.png'
     img = cv2.imread(fig)
     chans = cv2.split(img)
     colors = ("b", "g", "r")
@@ -326,11 +345,87 @@ def savi():
         # plot the histogram
         plt.plot(hist, color = color)
         plt.xlim([0, 256])
-        plt.savefig('/home/karan/Remote-vegetation-sensing/project/static/module/savi_hist.png')
+        plt.savefig(f'{local_path}static/module/savi_hist.png')
         his='static/module/savi_hist.png'
 
     return render_template('savi.html',savi=sa,histo=his)
 
+@app.route('/hsv' , methods=["GET","POST"])
+def hsv():
+    loc=f'{local_path}static/data/sample.tiff'
+    imagergb = cv2.imread(loc)
+    hsvImage = cv2.cvtColor(imagergb, cv2.COLOR_BGR2HSV)
+    #converting the image to HSV color space using cvtColor function
+    imagehsv = cv2.cvtColor(imagergb, cv2.COLOR_BGR2HSV)
+    cv2.imwrite(f'{local_path}static/model/hsv.png', imagehsv)
+    #function for creating model
+    def imagemask(lower,upper,name):
+        lower=np.array(lower)
+        upper=np.array(upper)
+        imagemask=cv2.inRange(imagehsv, lower, upper)
+        cv2.imwrite(f'{local_path}static/model/{name}.png', imagemask)
+    # imagemask fucntion Syntax imagemask([lowerthreshold],[upperthreshold],nameoffile)
+    imagemask([60, 42, 43],[135, 255, 255],"crop")
+    imagemask([29, 72, 39],[42, 100, 250],"barenland")
+    imagemask([0, 0, 0],[359, 84, 80],"cultivated_land")
+    imagemask([0, 87, 69],[130, 100, 80],"tree")
+    ori='static/data/sample.tiff'
+    hs='static/model/hsv.png'
 
+    return render_template('hsv.html',original=ori,hsv=hs)
+
+@app.route('/mask' , methods=["GET","POST"])
+def mask():
+    crp='static/model/crop.png'
+    barr='static/model/barenland.png'
+    cul='static/model/cultivated_land.png'
+    tre='static/model/tree.png'
+    return render_template('mask.html',bare=barr,crop=crp,cult=cul,tree=tre)
+
+
+@app.route('/data' , methods=["GET","POST"])
+def data():
+
+    crop=f'{local_path}static/model/crop.png'
+    barenland=f'{local_path}static/model/barenland.png'
+    cultivated_land=f'{local_path}static/model/cultivated_land.png'
+    tree=f'{local_path}static/model/tree.png'
+    def area(path,name):
+    
+
+
+        img = cv2.imread(path)
+
+        # counting the number of pixels
+        number_of_white_pix = np.sum(img == 255)
+        number_of_black_pix = np.sum(img == 0)
+        total=number_of_white_pix + number_of_black_pix
+        percent=(number_of_white_pix/total)*100
+        return {name:percent}
+
+
+    datas={}
+    datas.update({'Data' : 'Percentage'})
+    datas.update(area(tree,'Tree'))
+    datas.update(area(crop,'Crop'))
+    datas.update(area(barenland,'Baren Land'))
+    datas.update(area(cultivated_land,'Cultivated Land'))
+
+    total={}
+    total.update(area(tree,'tree'))
+    total.update(area(crop,'crop'))
+    total.update(area(barenland,'barenland'))
+    total.update(area(cultivated_land,'cultivated_land'))
+
+    total=total.values()
+    add=0
+    for i in total:
+        add=add+i
+    add=100-add
+    datas["Unknown"] = add
+    return render_template('data.html',data=datas)
+
+
+    
 if __name__=='__main__':
     app.run(debug=True)
