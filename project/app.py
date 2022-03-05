@@ -23,6 +23,8 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 
 import cv2
+from fpdf import FPDF
+import pandas as pd
 
 import warnings
 warnings.filterwarnings("ignore", category=rio.errors.NotGeoreferencedWarning)
@@ -391,11 +393,7 @@ def data():
     cultivated_land=f'{local_path}static/model/cultivated_land.png'
     tree=f'{local_path}static/model/tree.png'
     def area(path,name):
-    
-
-
         img = cv2.imread(path)
-
         # counting the number of pixels
         number_of_white_pix = np.sum(img == 255)
         number_of_black_pix = np.sum(img == 0)
@@ -411,18 +409,70 @@ def data():
     datas.update(area(barenland,'Baren Land'))
     datas.update(area(cultivated_land,'Cultivated Land'))
 
+    
     total={}
     total.update(area(tree,'tree'))
     total.update(area(crop,'crop'))
     total.update(area(barenland,'barenland'))
     total.update(area(cultivated_land,'cultivated_land'))
+    sizes = total.values()
+    add=0
+    for i in sizes:
+        add=add+i
+    adds=add
+    labels = total.keys()
 
+
+    data_dict = total
+    data_items = data_dict.items()
+    data_list = list(data_items)
+
+    df = pd.DataFrame(data_list)
+    df.columns =['Data', 'Percentage']
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(3, 3)
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+    #ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
+    ax.set_title('Remote Vegetation')
+    plt.legend(loc='lower right')
+    plt.savefig('df.png')
+
+    pdf=FPDF(format='letter')
+    pdf.add_page() #always needed
+    pdf.set_font('arial', 'B', 11)
+    pdf.cell(60)
+    pdf.cell(75, 10, 'Remote Vegetation Index', 0, 2, 'C')
+    pdf.cell(90, 10, '', 0, 2, 'C')
+
+
+    columnNameList = list(df.columns)
+    for header in columnNameList[:-1]:
+        pdf.cell(35, 10, header, 1, 0, 'C')
+    pdf.cell(35, 10, columnNameList[-1], 1, 1, 'C')
+    pdf.set_font('arial', '', 11)
+
+    for i in range(0, len(df)):
+        pdf.cell(60)
+        pdf.cell(35, 10, df['Data'][i], 1, 0, 'C')
+        pdf.cell(35, 10, str(round(100*(df['Percentage'][i]/adds), 2)), 1, 1, 'C')
+    pdf.cell(90, 10, '', 0, 2, 'C')
+    pdf.cell(55, 10, '', 0, 0, 'C')
+
+    #insert chart
+    pdf.image('df.png', x = None, y = None, w=0, h=0, type='', link='')
+    pdf.output('df.pdf', 'F')
+
+    """
     total=total.values()
     add=0
     for i in total:
         add=add+i
     add=100-add
     datas["Unknown"] = add
+
+    
+    """
     return render_template('data.html',data=datas)
 
 
