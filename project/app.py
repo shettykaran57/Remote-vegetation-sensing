@@ -10,6 +10,8 @@ import earthpy as et
 import earthpy.spatial as es
 import earthpy.plot as ep
 import rasterio as rio
+from flask import send_file,Flask,send_from_directory
+
 
 
 import matplotlib.pyplot as plt
@@ -473,8 +475,16 @@ def data():
 
     
     """
-    return render_template('data.html',data=datas)
 
+    return render_template ('data.html',data=datas )
+
+@app.route('/view', methods=["GET","POST"])
+def view():
+    workingdir = os.path.abspath(os.getcwd())
+    filepath = '/home/karan/Remote-vegetation-sensing/df.pdf'
+    return send_file(filepath)
+    
+    
 
     
 if __name__=='__main__':
