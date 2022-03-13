@@ -373,6 +373,9 @@ def hsv():
     imagemask([29, 72, 39],[42, 100, 250],"barenland")
     imagemask([0, 0, 0],[359, 84, 80],"cultivated_land")
     imagemask([0, 87, 69],[130, 100, 80],"tree")
+    imagemask([26, 40, 70],[90, 60, 110],"water")
+    imagemask([20, 20, 60],[255, 255, 80],"road")
+
     ori='static/data/sample.tiff'
     hs='static/model/hsv.png'
 
@@ -384,7 +387,10 @@ def mask():
     barr='static/model/barenland.png'
     cul='static/model/cultivated_land.png'
     tre='static/model/tree.png'
-    return render_template('mask.html',bare=barr,crop=crp,cult=cul,tree=tre)
+    wat='static/model/water.png'
+    ro='static/model/road.png'
+
+    return render_template('mask.html',bare=barr,crop=crp,cult=cul,tree=tre,water=wat,road=ro)
 
 
 @app.route('/data' , methods=["GET","POST"])
@@ -394,6 +400,9 @@ def data():
     barenland=f'{local_path}static/model/barenland.png'
     cultivated_land=f'{local_path}static/model/cultivated_land.png'
     tree=f'{local_path}static/model/tree.png'
+    water=f'{local_path}static/model/water.png'
+    road=f'{local_path}static/model/road.png'
+
     def area(path,name):
         img = cv2.imread(path)
         # counting the number of pixels
@@ -410,6 +419,9 @@ def data():
     datas.update(area(crop,'Crop'))
     datas.update(area(barenland,'Baren Land'))
     datas.update(area(cultivated_land,'Cultivated Land'))
+    datas.update(area(water,'Water'))
+    datas.update(area(road,'Road'))
+
 
     
     total={}
@@ -417,6 +429,8 @@ def data():
     total.update(area(crop,'crop'))
     total.update(area(barenland,'barenland'))
     total.update(area(cultivated_land,'cultivated_land'))
+    total.update(area(water,'Water'))
+    total.update(area(road,'Road'))
     sizes = total.values()
     add=0
     for i in sizes:
