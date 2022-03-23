@@ -371,7 +371,7 @@ def hsv():
     # imagemask fucntion Syntax imagemask([lowerthreshold],[upperthreshold],nameoffile)
     imagemask([60, 42, 43],[135, 255, 255],"crop")
     imagemask([29, 72, 39],[42, 100, 250],"barenland")
-    imagemask([0, 0, 0],[359, 84, 80],"cultivated_land")
+    imagemask([0, 0, 0],[359, 84, 80],"cultivated")
     imagemask([0, 87, 69],[130, 100, 80],"tree")
     imagemask([26, 40, 70],[90, 60, 110],"water")
     imagemask([20, 20, 60],[255, 255, 80],"road")
@@ -385,7 +385,7 @@ def hsv():
 def mask():
     crp='static/model/crop.png'
     barr='static/model/barenland.png'
-    cul='static/model/cultivated_land.png'
+    cul='static/model/cultivated.png'
     tre='static/model/tree.png'
     wat='static/model/water.png'
     ro='static/model/road.png'
@@ -398,7 +398,7 @@ def data():
 
     crop=f'{local_path}static/model/crop.png'
     barenland=f'{local_path}static/model/barenland.png'
-    cultivated_land=f'{local_path}static/model/cultivated_land.png'
+    cultivated=f'{local_path}static/model/cultivated.png'
     tree=f'{local_path}static/model/tree.png'
     water=f'{local_path}static/model/water.png'
     road=f'{local_path}static/model/road.png'
@@ -416,20 +416,20 @@ def data():
     datas={}
     datas.update({'Data' : 'Percentage'})
     datas.update(area(tree,'Tree'))
+    datas.update(area(water,'Water'))
     datas.update(area(crop,'Crop'))
     datas.update(area(barenland,'Baren Land'))
-    datas.update(area(cultivated_land,'Cultivated Land'))
-    datas.update(area(water,'Water'))
+    datas.update(area(cultivated,'Cultivated Land'))
     datas.update(area(road,'Road'))
 
 
     
     total={}
     total.update(area(tree,'tree'))
+    total.update(area(water,'Water'))
     total.update(area(crop,'crop'))
     total.update(area(barenland,'barenland'))
-    total.update(area(cultivated_land,'cultivated_land'))
-    total.update(area(water,'Water'))
+    total.update(area(cultivated,'cultivated'))
     total.update(area(road,'Road'))
     sizes = total.values()
     add=0
@@ -451,7 +451,7 @@ def data():
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
     #ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
     ax.set_title('Remote Vegetation')
-    plt.legend(loc='lower right')
+    #plt.legend(loc='lower right')
     plt.savefig('df.png')
 
     pdf=FPDF(format='letter')
